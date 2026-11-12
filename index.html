@@ -3,263 +3,321 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Асель, прости меня...</title>
+<title>Спокойной ночи, Асель ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'Georgia', 'Times New Roman', serif;
-    background: linear-gradient(160deg, #1a0b2e 0%, #2d1b4e 40%, #4a1942 100%);
-    color: #f5e6e8;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #020005;
+    color: #fff;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow-x: hidden;
+    overflow: hidden;
     position: relative;
-    padding: 20px;
   }
 
-  /* Звёзды и луна */
-  .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-  .star { position: absolute; background: white; border-radius: 50%; animation: twinkle 3s infinite ease-in-out; }
-  @keyframes twinkle { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.9; } }
-  
-  .moon {
-    position: fixed; top: 40px; right: 50px; width: 90px; height: 90px;
-    border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff8e7, #f0d9a8);
-    box-shadow: 0 0 60px rgba(255, 240, 200, 0.6), 0 0 120px rgba(255, 240, 200, 0.3);
-    z-index: 0;
+  /* Фон с 3D-частицами */
+  #bg-canvas {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1;
   }
 
-  /* Карточка */
-  .container {
-    position: relative; z-index: 2; text-align: center;
-    padding: 40px 30px; max-width: 580px; width: 100%;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 200, 220, 0.15);
-    border-radius: 28px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    display: none; 
-    animation: fadeIn 0.8s ease;
+  /* Стеклянная карточка */
+  .content {
+    position: relative;
+    z-index: 10;
+    width: 92%;
+    max-width: 520px;
+    padding: 40px 25px;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 40px 80px rgba(0, 0, 0, 0.8),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    text-align: center;
+    opacity: 0;
+    animation: cardAppear 2s ease 0.5s forwards;
   }
-  .container.active { display: block; }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes cardAppear {
+    to { opacity: 1; }
   }
 
-  .emoji-top { font-size: 3em; margin-bottom: 15px; display: inline-block; animation: pulse 2.5s ease-in-out infinite; }
-  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+  /* Светящееся сердце */
+  .heart-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    animation: float 4s ease-in-out infinite;
+  }
 
+  .heart-icon {
+    font-size: 85px;
+    line-height: 1;
+    background: linear-gradient(45deg, #ff4d79, #f72585, #7209b7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 30px rgba(247, 37, 133, 0.8));
+    animation: beat 1.5s infinite cubic-bezier(0.215, 0.610, 0.355, 1);
+    transform-origin: center;
+  }
+
+  @keyframes beat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.2); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.2); }
+    60% { transform: scale(1); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* Текст */
   h1 {
-    font-size: 1.8em; margin-bottom: 20px; font-weight: normal;
-    background: linear-gradient(45deg, #ffb3c6, #ff8fab, #ffc2d1);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4em;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #fff 0%, #ffb199 50%, #fff 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 4s linear infinite;
+  }
+
+  @keyframes shimmer {
+    to { background-position: 200% center; }
   }
 
   .message {
-    font-size: 1.1em; line-height: 1.7; color: #ecd9e3;
-    margin-bottom: 25px; text-align: center;
-  }
-  .message p { margin-bottom: 15px; }
-  .highlight { color: #ffb3c6; font-weight: bold; }
-
-  /* Кнопки */
-  .btn {
-    padding: 14px 30px; font-size: 1.05em; border: none; border-radius: 50px;
-    cursor: pointer; transition: all 0.3s ease; font-family: inherit;
-    background: linear-gradient(45deg, #ff6b9d, #ff4757); color: white;
-    box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
-    margin: 5px;
-  }
-  .btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 25px rgba(255, 107, 157, 0.7); }
-
-  /* Убегающая кнопка */
-  .btn-no {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 200, 220, 0.3);
-    box-shadow: none;
+    font-size: 1.05em;
+    line-height: 1.7;
+    color: #d1c4e9;
   }
 
-  /* Сердечки */
-  .heart { position: fixed; bottom: -50px; font-size: 22px; animation: floatUp linear forwards; pointer-events: none; z-index: 1; opacity: 0.85; }
-  @keyframes floatUp {
-    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.9; }
-    90% { opacity: 0.9; }
-    100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+  .message p {
+    margin-bottom: 12px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideUp 1s ease forwards;
   }
-  .hearts-burst { font-size: 1.8em; margin: 15px 0; letter-spacing: 5px; animation: pulse 1.5s infinite; }
 
-  @media (max-width: 400px) {
-    h1 { font-size: 1.5em; }
-    .container { padding: 30px 20px; }
-    .message { font-size: 1em; }
+  .message p:nth-child(1) { animation-delay: 1.5s; }
+  .message p:nth-child(2) { animation-delay: 2.0s; }
+  .message p:nth-child(3) { animation-delay: 2.5s; }
+  .message p:nth-child(4) { animation-delay: 3.0s; }
+
+  @keyframes slideUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .highlight {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.3em;
+    color: #ff4d79;
+    text-shadow: 0 0 20px rgba(255, 77, 121, 0.8);
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  .signature {
+    margin-top: 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3em;
+    color: #fff;
+    letter-spacing: 1px;
+    opacity: 0;
+    animation: slideUp 1s ease 3.5s forwards;
+  }
+
+  /* Блок Спокойной ночи */
+  .goodnight {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    animation: slideUp 1.5s ease 4.5s forwards;
+  }
+
+  .moon-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+    display: inline-block;
+    animation: moonGlow 3s ease-in-out infinite;
+  }
+
+  @keyframes moonGlow {
+    0%, 100% { filter: drop-shadow(0 0 10px #fff); }
+    50% { filter: drop-shadow(0 0 30px #ffb199); }
+  }
+
+  .gn-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4em;
+    color: #ffb199;
+    font-style: italic;
+    letter-spacing: 1px;
+  }
+
+  .gn-sub {
+    font-size: 0.9em;
+    color: #9a8c98;
+    margin-top: 10px;
+    font-weight: 300;
   }
 </style>
 </head>
 <body>
 
-<div class="stars" id="stars"></div>
-<div class="moon"></div>
+<div id="bg-canvas"></div>
 
-<!-- ЭКРАН 1 -->
-<div class="container active" id="screen1">
-  <div class="emoji-top">🌙</div>
+<div class="content">
+  <div class="heart-container">
+    <div class="heart-icon">❤️</div>
+  </div>
+  
   <h1>Асель, жаным...</h1>
-  <div class="message">
-    <p>Я очень долго ходил вокруг да около и думал, как написать тебе это.</p>
-    <p>Мне правда очень стыдно. Я знаю, что ты обижена, и я полностью понимаю почему.</p>
-  </div>
-  <button class="btn" onclick="nextScreen(2)">Читать дальше 💌</button>
-</div>
 
-<!-- ЭКРАН 2 -->
-<div class="container" id="screen2">
-  <div class="emoji-top">😔</div>
-  <h1>Я знаю, что подвёл тебя</h1>
   <div class="message">
-    <p>Ты меня ждала. Ты готовилась, наверное, отложила свои дела. А я просто заснул.</p>
-    <p>И самое ужасное, что умудрился сделать это дважды. Взял и вырубился.</p>
+    <p class="highlight">Я очень люблю тебя.</p>
+    
+    <p>Спасибо тебе за то, что ты меня тоже любишь. Я это очень ценю.</p>
+    
+    <p>Спасибо, что ты есть в моей жизни. Ты делаешь меня намного счастливее, и я не представляю, как бы я жил без тебя.</p>
+    
+    <p>И спасибо огромное за то, что ты меня простила и понимаешь. Ты — самая лучшая и родная.</p>
   </div>
-  <button class="btn" onclick="nextScreen(3)">Дальше</button>
-</div>
 
-<!-- ЭКРАН 3 -->
-<div class="container" id="screen3">
-  <div class="emoji-top">💔</div>
-  <h1>Я представляю, как тебе обидно</h1>
-  <div class="message">
-    <p>Ты сидела, смотрела в экран телефона и ждала звонка. Ждала меня. А в это время я спал.</p>
-    <p>Осознавать это сейчас невыносимо паршиво. Я чувствую себя полным дураком.</p>
-  </div>
-  <button class="btn" onclick="nextScreen(4)">Дальше</button>
-</div>
+  <div class="signature">Твой Нурболат</div>
 
-<!-- ЭКРАН 4 -->
-<div class="container" id="screen4">
-  <div class="emoji-top">📍</div>
-  <h1>Расстояние делает это ещё хуже</h1>
-  <div class="message">
-    <p>Между Шымкентом и Астаной огромные километры. И у нас и так не так много времени, чтобы побыть вдвоем.</p>
-    <p>Созваниваться — это то немногое, что у нас есть. А я взял и потратил это драгоценное время на сон.</p>
-  </div>
-  <button class="btn" onclick="nextScreen(5)">Дальше</button>
-</div>
-
-<!-- ЭКРАН 5 -->
-<div class="container" id="screen5">
-  <div class="emoji-top">🫂</div>
-  <h1>Нет никаких оправданий</h1>
-  <div class="message">
-    <p>Усталость — это не оправдание. Никакие дела не стоят твоих переживаний.</p>
-    <p>Это полностью <span class="highlight">моя вина</span>. Я подвёл тебя там, где должен был быть самым надежным и заботливым.</p>
-  </div>
-  <button class="btn" onclick="nextScreen(6)">Дальше</button>
-</div>
-
-<!-- ЭКРАН 6 -->
-<div class="container" id="screen6">
-  <div class="emoji-top">🥺</div>
-  <h1>Мне очень стыдно</h1>
-  <div class="message">
-    <p>Ты — самое дорогое, что у меня есть, жаным. И я не хочу, чтобы из-за моей глупости ты грустила или чувствовала себя ненужной.</p>
-    <p>Ты заслуживаешь только внимания, заботы и того, чтобы я держал свое слово.</p>
-  </div>
-  <button class="btn" onclick="nextScreen(7)">Дальше</button>
-</div>
-
-<!-- ЭКРАН 7 -->
-<div class="container" id="screen7">
-  <div class="emoji-top">💖</div>
-  <h1>Я хочу всё исправить</h1>
-  <div class="message">
-    <p>Я не жду, что ты прямо сейчас перестанешь злиться. Злись, если тебе так легче. Я это заслужил.</p>
-    <p>Но, пожалуйста, знай, что я очень хочу всё исправить. И не просто словами.</p>
-  </div>
-  <button class="btn" onclick="nextScreen(8)">Дальше</button>
-</div>
-
-<!-- ЭКРАН 8 (ФИНАЛ) -->
-<div class="container" id="screen8">
-  <div class="emoji-top">🙏</div>
-  <h1>Последний вопрос...</h1>
-  <div class="message">
-    <p><span class="highlight">Дай мне шанс доказать, что ты для меня важнее всего на свете?</span></p>
-    <p>Твой Нурболат из Шымкента очень сильно скучает по своей Асель из Астаны.</p>
-  </div>
-  <div class="buttons">
-    <button class="btn" onclick="forgive()">Прощаю, жаным ❤️</button>
-    <!-- Та самая убегающая кнопка -->
-    <button class="btn btn-no" id="noBtn" onmouseover="runAway()" onclick="runAway()">Не прощу</button>
+  <!-- Блок Спокойной ночи -->
+  <div class="goodnight">
+    <div class="moon-icon">🌙</div>
+    <div class="gn-text">Спокойной ночи, жаным...</div>
+    <div class="gn-sub">Пусть тебе приснится что-то очень хорошее. Я рядом, даже на расстоянии.</div>
   </div>
 </div>
 
-<!-- ЭКРАН БЛАГОДАРНОСТИ -->
-<div class="container" id="screenSuccess">
-  <div class="emoji-top">🌹</div>
-  <h1>Спасибо тебе, Асель!</h1>
-  <div class="hearts-burst">❤️ 💕 💖 💐</div>
-  <div class="message">
-    <p>Ты даже не представляешь, как мне стало легче. Спасибо, что дала мне шанс.</p>
-    <p>Обещаю, что больше такого не повторится. Буду рядом вовремя, несмотря на расстояние.</p>
-    <p style="color:#ffb3c6; font-size:1.2em; margin-top:20px;">Люблю тебя, жаным 🌹</p>
-  </div>
-</div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-  // Звёзды
-  const starsContainer = document.getElementById('stars');
-  for (let i = 0; i < 90; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    const size = Math.random() * 2.5 + 1;
-    s.style.width = size + 'px'; s.style.height = size + 'px';
-    s.style.left = Math.random() * 100 + 'vw'; s.style.top = Math.random() * 100 + 'vh';
-    s.style.animationDelay = (Math.random() * 3) + 's';
-    starsContainer.appendChild(s);
+  // Настройка 3D сцены
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 30;
+
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  document.getElementById('bg-canvas').appendChild(renderer.domElement);
+
+  // 3D СЕРДЦЕ ИЗ ЧАСТИЦ
+  const particleCount = 8000;
+  const geometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(particleCount * 3);
+  const colors = new Float32Array(particleCount * 3);
+
+  const colorInside = new THREE.Color('#ff4d79');
+  const colorOutside = new THREE.Color('#7209b7');
+
+  for (let i = 0; i < particleCount; i++) {
+    const t = Math.random() * Math.PI * 2;
+    const x = 16 * Math.pow(Math.sin(t), 3);
+    const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+    const z = (Math.random() - 0.5) * 5;
+
+    const scale = 0.9 + Math.random() * 0.2;
+    
+    positions[i * 3] = x * scale;
+    positions[i * 3 + 1] = y * scale;
+    positions[i * 3 + 2] = z;
+
+    const mix = Math.random();
+    const color = colorInside.clone().lerp(colorOutside, mix);
+    colors[i * 3] = color.r;
+    colors[i * 3 + 1] = color.g;
+    colors[i * 3 + 2] = color.b;
   }
 
-  // Сердечки
-  function createHeart() {
-    const heart = document.createElement('div');
-    heart.className = 'heart';
-    const icons = ['❤️','💕','💖','🌹','💐','💗'];
-    heart.textContent = icons[Math.floor(Math.random() * icons.length)];
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.fontSize = (Math.random() * 16 + 16) + 'px';
-    heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 11000);
-  }
-  setInterval(createHeart, 800);
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-  // Убегающая кнопка "Не прощу"
-  function runAway() {
-    const btn = document.getElementById('noBtn');
-    const x = (Math.random() - 0.5) * 300;
-    const y = (Math.random() - 0.5) * 200;
-    btn.style.transform = `translate(${x}px, ${y}px)`;
-  }
+  const material = new THREE.PointsMaterial({
+    size: 0.15,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.9,
+    blending: THREE.AdditiveBlending
+  });
 
-  // Переключение экранов
-  function nextScreen(num) {
-    document.querySelectorAll('.container').forEach(el => el.classList.remove('active'));
-    document.getElementById('screen' + num).classList.add('active');
-  }
+  const heart = new THREE.Points(geometry, material);
+  scene.add(heart);
 
-  // Финал
-  function forgive() {
-    document.querySelectorAll('.container').forEach(el => el.classList.remove('active'));
-    document.getElementById('screenSuccess').classList.add('active');
-    for (let i = 0; i < 30; i++) {
-      setTimeout(createHeart, i * 150);
-    }
+  // ФОНОВЫЕ ЗВЕЗДЫ
+  const starsGeo = new THREE.BufferGeometry();
+  const starsCount = 2000;
+  const starsPos = new Float32Array(starsCount * 3);
+  for (let i = 0; i < starsCount; i++) {
+    starsPos[i * 3] = (Math.random() - 0.5) * 200;
+    starsPos[i * 3 + 1] = (Math.random() - 0.5) * 200;
+    starsPos[i * 3 + 2] = (Math.random() - 0.5) * 200;
   }
+  starsGeo.setAttribute('position', new THREE.BufferAttribute(starsPos, 3));
+  const starsMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.08, transparent: true, opacity: 0.6 });
+  const stars = new THREE.Points(starsGeo, starsMat);
+  scene.add(stars);
+
+  // АНИМАЦИЯ
+  let time = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    time += 0.01;
+
+    const scale = 1 + Math.sin(time * 4) * 0.05;
+    heart.scale.set(scale, scale, scale);
+
+    heart.rotation.y += 0.005;
+    heart.rotation.x = Math.sin(time) * 0.05;
+
+    stars.rotation.y -= 0.0005;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // ИНТЕРАКТИВ
+  document.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 5;
+    const y = (e.clientY / window.innerHeight - 0.5) * 5;
+    heart.rotation.y += x * 0.01;
+    heart.rotation.x += y * 0.01;
+  });
+
+  document.addEventListener('touchmove', (e) => {
+    const touch = e.touches[0];
+    const x = (touch.clientX / window.innerWidth - 0.5) * 5;
+    const y = (touch.clientY / window.innerHeight - 0.5) * 5;
+    heart.rotation.y += x * 0.01;
+    heart.rotation.x += y * 0.01;
+  });
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
 </script>
 
 </body>
